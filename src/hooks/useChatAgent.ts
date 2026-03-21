@@ -1,4 +1,7 @@
 import { useState, useCallback, useRef } from 'react'
+import { isAIAvailable, streamClaude } from '../services/aiService'
+import { conversationPrompt } from '../services/aiPrompts'
+import { CEFRLevel, RegisterMode } from '../types/ai'
 
 export interface ChatMessage {
   id: string
@@ -346,7 +349,31 @@ export const useChatAgent = () => {
     setMessages([msg])
   }, [])
 
-  const sendMessage = useCallback((text: string, autoSpeak: boolean = false) => {
+  const parseAIResponse = (text: string): { clean: string; correction?: string; suggestion?: string } => {
+    let clean = text
+    let correction: string | undefined
+    let suggestion: string | undefined
+
+    // Parse [CORRECTION: "original" -> "corrected" | explanation]
+    const corrMatch = clean.match(/\[CORRECTION:\s*"([^"]+)"\s*->\s*"([^"]+)"\s*\|\s*([^\]]+)\]/)
+    if (corrMatch) {
+      correction = corrMatch[2]
+      suggestion = corrMatch[3].trim()
+      clean = clean.replace(corrMatch[0], '').trim()
+    }
+
+    // Parse [VOCAB: "word" -> "synonym" (definition)]
+    const vocabMatch = clean.match(/\[VOCAB:\s*"([^"]+)"\s*->\s*"([^"]+)"\s*\(([^)]+)\)\]/)
+    if (vocabMatch) {
+      if (!suggestion) suggestion = `Vocabulary: "${vocabMatch[1]}" → try "${vocabMatch[2]}" (${vocabMatch[3]})`
+      else suggestion += `\nVocabulary: "${vocabMatch[1]}" → try "${vocabMatch[2]}" (${vocabMatch[3]})`
+      clean = clean.replace(vocabMatch[0], '').trim()
+    }
+
+    return { clean, correction, suggestion }
+  }
+
+  const sendMessage = useCallback(async (text: string, autoSpeak: boolean = false, registerMode: RegisterMode = 'casual', targetLevel: CEFRLevel = 'B2') => {
     if (!text.trim()) return
 
     const userMsg: ChatMessage = {
@@ -358,6 +385,43 @@ export const useChatAgent = () => {
     setMessages(prev => [...prev, userMsg])
     setIsTyping(true)
 
+    // Try AI first
+    if (isAIAvailable()) {
+      try {
+        const ctx = contextRef.current
+        const history = messages.filter(m => m.sender === 'user' || m.sender === 'agent')
+          .slice(-10)
+          .map(m => ({ role: (m.sender === 'user' ? 'user' : 'assistant') as 'user' | 'assistant', content: m.text }))
+        history.push({ role: 'user', content: text.trim() })
+
+        const systemPrompt = conversationPrompt(targetLevel, ctx.personality, registerMode)
+        const agentMsgId = genId()
+
+        // Add placeholder message
+        setMessages(prev => [...prev, { id: agentMsgId, sender: 'agent', text: '', timestamp: new Date() }])
+
+        const fullText = await streamClaude(systemPrompt, history, (streamedText) => {
+          setMessages(prev => prev.map(m => m.id === agentMsgId ? { ...m, text: streamedText } : m))
+        })
+
+        setIsTyping(false)
+        const parsed = parseAIResponse(fullText)
+        setMessages(prev => prev.map(m => m.id === agentMsgId
+          ? { ...m, text: parsed.clean, correction: parsed.correction, suggestion: parsed.suggestion }
+          : m
+        ))
+
+        ctx.turnCount++
+        if (autoSpeak) speak(parsed.clean)
+        return
+      } catch (error) {
+        console.warn('AI unavailable, falling back to mock:', error)
+        // Remove placeholder if it was added
+        setMessages(prev => prev.filter(m => m.text !== ''))
+      }
+    }
+
+    // Fallback to mock
     const delay = 600 + Math.random() * 1000
     setTimeout(() => {
       setIsTyping(false)
@@ -375,7 +439,7 @@ export const useChatAgent = () => {
 
       if (autoSpeak) speak(result.text)
     }, delay)
-  }, [generateResponse, speak])
+  }, [generateResponse, speak, messages])
 
   const resetChat = useCallback(() => {
     setMessages([])

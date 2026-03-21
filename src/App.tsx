@@ -14,20 +14,22 @@ import { MorphologyExercise } from './components/MorphologyExercise'
 import { FreeTalkChat } from './components/FreeTalkChat'
 import { FlashcardReview } from './components/FlashcardReview'
 import { WordPackManager } from './components/WordPackManager'
+import { EssayWriting } from './components/EssayWriting'
+import { AISettings } from './components/AISettings'
 import { ProgressDashboard } from './components/ProgressDashboard'
 import { useProgress } from './hooks/useProgress'
 import { useVocabulary } from './hooks/useVocabulary'
 
 type ExerciseType = 'pronunciation' | 'listening' | 'speaking' | 'conversation'
   | 'grammar' | 'reading' | 'writing' | 'dictation' | 'minimal-pairs' | 'morphology'
-  | 'free-talk' | 'flashcard' | 'word-packs'
+  | 'free-talk' | 'flashcard' | 'word-packs' | 'essay' | 'ai-settings'
   | 'vocabulary' | 'progress' | 'home'
 
 const App: React.FC = () => {
   const [currentExercise, setCurrentExercise] = useState<ExerciseType>('home')
   const {
     addPronunciationScore, addListeningScore, addSpeakingSession,
-    addGrammarScore, addReadingScore, addWritingScore, addDictationScore, addMorphologyScore, addFlashcardScore,
+    addGrammarScore, addReadingScore, addWritingScore, addDictationScore, addMorphologyScore, addFlashcardScore, addEssayScore,
     updateStreak
   } = useProgress()
   const { recordPronunciation, recordListening, recordSpeaking, recordConversation } = useVocabulary()
@@ -103,9 +105,11 @@ const App: React.FC = () => {
         {homeCard('conversation', '💬', 'Conversation', 'Practice real-world conversations with an AI partner.')}
         {homeCard('free-talk', '🗣️', 'Free Talk', 'Chat freely in English with an AI conversation partner.')}
         {homeCard('morphology', '🧬', 'Word Parts', 'Learn prefixes, roots, and suffixes to unlock thousands of words.')}
+        {homeCard('essay', '✍️', 'Essay Writing', 'Write essays and get AI feedback on grammar, structure, and style.')}
         {homeCard('flashcard', '🔁', 'Flashcards', 'Review vocabulary with spaced repetition (forgetting curve).')}
         {homeCard('word-packs', '📦', 'Word Packs', 'Expand vocabulary with specialized packs (Business, TOEIC, etc.).')}
         {homeCard('vocabulary', '📚', 'Vocabulary', 'Track words automatically collected from all exercises.')}
+        {homeCard('ai-settings', '🤖', 'AI Settings', 'Configure Claude AI for advanced learning features.')}
         {homeCard('progress', '📊', 'Progress', 'View your learning progress and achievements.')}
       </div>
     </div>
@@ -128,9 +132,11 @@ const App: React.FC = () => {
           {navBtn('conversation', 'Conversation')}
           {navBtn('free-talk', 'Free Talk')}
           {navBtn('morphology', 'Word Parts')}
+          {navBtn('essay', 'Essay')}
           {navBtn('flashcard', 'Flashcards')}
           {navBtn('word-packs', 'Packs')}
           {navBtn('vocabulary', 'Vocabulary')}
+          {navBtn('ai-settings', 'AI')}
           {navBtn('progress', 'Progress')}
         </div>
       </div>
@@ -264,6 +270,18 @@ const App: React.FC = () => {
       {currentExercise === 'word-packs' && (
         <div className="container">
           <WordPackManager />
+        </div>
+      )}
+
+      {currentExercise === 'essay' && (
+        <div className="container">
+          <EssayWriting onComplete={(score) => { addEssayScore(score); updateStreak() }} />
+        </div>
+      )}
+
+      {currentExercise === 'ai-settings' && (
+        <div className="container">
+          <AISettings />
         </div>
       )}
 

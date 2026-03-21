@@ -13,6 +13,7 @@ interface ProgressData {
   dictationScores: number[]
   morphologyScores: number[]
   flashcardScores: number[]
+  essayScores: number[]
 }
 
 const defaultProgress: ProgressData = {
@@ -27,7 +28,8 @@ const defaultProgress: ProgressData = {
   writingScores: [],
   dictationScores: [],
   morphologyScores: [],
-  flashcardScores: []
+  flashcardScores: [],
+  essayScores: []
 }
 
 export const useProgress = () => {
@@ -148,6 +150,15 @@ export const useProgress = () => {
     saveProgress(newProgress)
   }
 
+  const addEssayScore = (score: number) => {
+    const newProgress = {
+      ...progress,
+      essayScores: [...(progress.essayScores || []), score],
+      lastSessionDate: new Date().toISOString().split('T')[0]
+    }
+    saveProgress(newProgress)
+  }
+
   const getAveragePronunciationScore = () => {
     if (progress.pronunciationScores.length === 0) return 0
     return Math.round(
@@ -167,7 +178,8 @@ export const useProgress = () => {
       (progress.grammarScores?.length || 0) + (progress.readingScores?.length || 0) +
       (progress.writingScores?.length || 0) + (progress.dictationScores?.length || 0) +
       (progress.morphologyScores?.length || 0) +
-      (progress.flashcardScores?.length || 0)
+      (progress.flashcardScores?.length || 0) +
+      (progress.essayScores?.length || 0)
   }
 
   const resetProgress = () => {
@@ -185,6 +197,7 @@ export const useProgress = () => {
     addDictationScore,
     addMorphologyScore,
     addFlashcardScore,
+    addEssayScore,
     updateStreak,
     getAveragePronunciationScore,
     getAverageListeningScore,
