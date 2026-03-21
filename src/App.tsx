@@ -11,6 +11,7 @@ import { GapFillExercise } from './components/GapFillExercise'
 import { DictationExercise } from './components/DictationExercise'
 import { MinimalPairDrill } from './components/MinimalPairDrill'
 import { MorphologyExercise } from './components/MorphologyExercise'
+import { FreeTalkChat } from './components/FreeTalkChat'
 import { FlashcardReview } from './components/FlashcardReview'
 import { WordPackManager } from './components/WordPackManager'
 import { ProgressDashboard } from './components/ProgressDashboard'
@@ -19,7 +20,7 @@ import { useVocabulary } from './hooks/useVocabulary'
 
 type ExerciseType = 'pronunciation' | 'listening' | 'speaking' | 'conversation'
   | 'grammar' | 'reading' | 'writing' | 'dictation' | 'minimal-pairs' | 'morphology'
-  | 'flashcard' | 'word-packs'
+  | 'free-talk' | 'flashcard' | 'word-packs'
   | 'vocabulary' | 'progress' | 'home'
 
 const App: React.FC = () => {
@@ -100,6 +101,7 @@ const App: React.FC = () => {
         {homeCard('speaking', '🗣️', 'Speaking', 'Practice speaking with guided prompts and record yourself.',
           () => { setCurrentExercise('speaking'); setSpeakingKey(k => k + 1) })}
         {homeCard('conversation', '💬', 'Conversation', 'Practice real-world conversations with an AI partner.')}
+        {homeCard('free-talk', '🗣️', 'Free Talk', 'Chat freely in English with an AI conversation partner.')}
         {homeCard('morphology', '🧬', 'Word Parts', 'Learn prefixes, roots, and suffixes to unlock thousands of words.')}
         {homeCard('flashcard', '🔁', 'Flashcards', 'Review vocabulary with spaced repetition (forgetting curve).')}
         {homeCard('word-packs', '📦', 'Word Packs', 'Expand vocabulary with specialized packs (Business, TOEIC, etc.).')}
@@ -124,6 +126,7 @@ const App: React.FC = () => {
           {navBtn('minimal-pairs', 'Ear Training')}
           {navBtn('speaking', 'Speaking', () => { setCurrentExercise('speaking'); setSpeakingKey(k => k + 1) })}
           {navBtn('conversation', 'Conversation')}
+          {navBtn('free-talk', 'Free Talk')}
           {navBtn('morphology', 'Word Parts')}
           {navBtn('flashcard', 'Flashcards')}
           {navBtn('word-packs', 'Packs')}
@@ -229,6 +232,15 @@ const App: React.FC = () => {
               recordConversation(messages, scenarioVocabulary)
             }}
           />
+        </div>
+      )}
+
+      {currentExercise === 'free-talk' && (
+        <div className="container">
+          <FreeTalkChat onComplete={(messageCount, duration) => {
+            addSpeakingSession(duration)
+            updateStreak()
+          }} />
         </div>
       )}
 
