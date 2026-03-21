@@ -34,8 +34,8 @@ const GRAMMAR_CHECKS: { pattern: RegExp; correction: string; tip: string }[] = [
   { pattern: /\byesterday i have\b/i, correction: 'Yesterday I ...ed', tip: 'With "yesterday", use past simple, not present perfect.' },
   { pattern: /\bsince \d+ years\b/i, correction: 'for ... years', tip: 'Use "for" with durations, "since" with specific points in time.' },
   { pattern: /\bi am not have\b/i, correction: 'I don\'t have', tip: 'Use "don\'t have" for negation, not "am not have".' },
-  { pattern: /\bhe have\b/i, correction: 'he has', tip: 'Third person singular: "he has", not "he have".' },
-  { pattern: /\bshe have\b/i, correction: 'she has', tip: 'Third person singular: "she has".' },
+  { pattern: /(?<!\bdoes\s)\bhe have\b/i, correction: 'he has', tip: 'Third person singular: "he has", not "he have".' },
+  { pattern: /(?<!\bdoes\s)\bshe have\b/i, correction: 'she has', tip: 'Third person singular: "she has".' },
 ]
 
 function detectGrammarIssue(text: string): { correction: string; tip: string } | null {
@@ -51,11 +51,11 @@ function detectGrammarIssue(text: string): { correction: string; tip: string } |
 function detectTopic(text: string): string {
   const lower = text.toLowerCase()
   const topics: [string, string[]][] = [
+    ['family', ['family', 'mother', 'father', 'sister', 'brother', 'parent', 'child', 'kid', 'wife', 'husband']],
     ['work', ['work', 'job', 'office', 'boss', 'colleague', 'career', 'company', 'meeting', 'project']],
-    ['travel', ['travel', 'trip', 'vacation', 'flight', 'hotel', 'country', 'visit', 'abroad', 'tourist', 'beach']],
+    ['travel', ['travel', 'trip', 'vacation', 'flight', 'hotel', 'country', 'abroad', 'tourist', 'beach']],
     ['food', ['food', 'eat', 'cook', 'restaurant', 'lunch', 'dinner', 'breakfast', 'recipe', 'meal', 'delicious']],
     ['hobby', ['hobby', 'game', 'sport', 'music', 'movie', 'book', 'read', 'play', 'guitar', 'piano', 'soccer', 'tennis']],
-    ['family', ['family', 'mother', 'father', 'sister', 'brother', 'parent', 'child', 'kid', 'wife', 'husband']],
     ['study', ['study', 'learn', 'school', 'university', 'class', 'exam', 'english', 'language', 'student', 'teacher']],
     ['technology', ['phone', 'computer', 'internet', 'app', 'ai', 'technology', 'software', 'social media', 'website']],
     ['weather', ['weather', 'rain', 'sun', 'snow', 'cold', 'hot', 'warm', 'temperature', 'season', 'summer', 'winter']],
@@ -178,19 +178,19 @@ const FOLLOW_UP_PATTERNS: { triggers: string[]; responses: string[] }[] = [
     ]
   },
   {
-    triggers: ['no', 'not really', 'nope', 'never', 'i don\'t think'],
-    responses: [
-      "I see, that's totally fine! What about something different — what interests you?",
-      "No worries! Is there something else you'd rather talk about?",
-      "Got it! Let me ask you something different then.",
-    ]
-  },
-  {
     triggers: ['i don\'t know', 'i\'m not sure', 'maybe', 'hard to say', 'difficult question'],
     responses: [
       "That's okay! It can be a tricky question. Let me rephrase it — what's the first thing that comes to your mind?",
       "No pressure! Take your time. Sometimes it helps to think of a specific example.",
       "That's a perfectly fine answer! Let's try a different question.",
+    ]
+  },
+  {
+    triggers: ['no', 'not really', 'nope', 'never', 'i don\'t think'],
+    responses: [
+      "I see, that's totally fine! What about something different — what interests you?",
+      "No worries! Is there something else you'd rather talk about?",
+      "Got it! Let me ask you something different then.",
     ]
   },
   {
