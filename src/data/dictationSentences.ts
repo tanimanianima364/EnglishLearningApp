@@ -1,6 +1,6 @@
 export interface DictationSentence {
   id: string
-  cefrLevel: 'A1' | 'A2' | 'B1' | 'B2'
+  cefrLevel: 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2'
   text: string
   speed: 'slow' | 'normal' | 'fast'
 }
@@ -53,4 +53,28 @@ export const dictationSentences: DictationSentence[] = [
   { id: 'b2-8', cefrLevel: 'B2', text: 'What concerns me most about social media is the way it can distort our perception of reality and affect mental health.', speed: 'fast' },
   { id: 'b2-9', cefrLevel: 'B2', text: 'The more you expose yourself to authentic materials, the more naturally you will acquire the nuances of the language.', speed: 'fast' },
   { id: 'b2-10', cefrLevel: 'B2', text: 'Having considered all the available options, the committee decided to postpone the decision until further evidence could be gathered.', speed: 'fast' },
+
+  // C1 - Complex subordination, idiomatic expressions, academic vocabulary
+  { id: 'c1-1', cefrLevel: 'C1', text: 'Had it not been for the swift intervention of the emergency services, the consequences of the industrial accident could have been far more devastating.', speed: 'fast' },
+  { id: 'c1-2', cefrLevel: 'C1', text: 'The findings, which were corroborated by several independent studies, suggest that prolonged exposure to social media can significantly diminish attention span.', speed: 'fast' },
+  { id: 'c1-3', cefrLevel: 'C1', text: 'It is the underlying assumptions of the theory, rather than its surface-level predictions, that have been called into question by recent empirical evidence.', speed: 'fast' },
+  { id: 'c1-4', cefrLevel: 'C1', text: 'Notwithstanding the considerable progress made in renewable energy, the transition away from fossil fuels remains fraught with economic and political challenges.', speed: 'fast' },
+  { id: 'c1-5', cefrLevel: 'C1', text: 'The architect, drawing on both classical principles and contemporary innovation, designed a building that seamlessly blends form with function.', speed: 'fast' },
+  { id: 'c1-6', cefrLevel: 'C1', text: 'What distinguishes truly effective leaders from merely competent managers is their capacity to inspire collective action in the face of uncertainty.', speed: 'fast' },
+  { id: 'c1-7', cefrLevel: 'C1', text: 'The policy was implemented on the grounds that it would stimulate economic growth, though critics argue it has disproportionately benefited the wealthy.', speed: 'fast' },
+  { id: 'c1-8', cefrLevel: 'C1', text: 'Having been thoroughly vetted by an independent panel of experts, the proposal was finally approved after months of heated deliberation.', speed: 'fast' },
+  { id: 'c1-9', cefrLevel: 'C1', text: 'So pervasive has the influence of digital technology become that it is now virtually impossible to conduct business without some form of online presence.', speed: 'fast' },
+  { id: 'c1-10', cefrLevel: 'C1', text: 'The professor emphasized that correlation does not imply causation, a distinction frequently overlooked in popular interpretations of scientific research.', speed: 'fast' },
+
+  // C2 - Subjunctive mood, inversion, nominalization, mixed conditionals, literary/academic register
+  { id: 'c2-1', cefrLevel: 'C2', text: 'Were one to scrutinize the epistemological underpinnings of the argument, it would become apparent that the conclusions rest on a series of unsubstantiated presuppositions.', speed: 'fast' },
+  { id: 'c2-2', cefrLevel: 'C2', text: 'The sheer intractability of the problem necessitates that we abandon conventional methodologies in favour of a more interdisciplinary and holistic analytical framework.', speed: 'fast' },
+  { id: 'c2-3', cefrLevel: 'C2', text: 'Not until the full ramifications of the policy had been meticulously examined did the committee feel sufficiently confident to endorse its widespread implementation.', speed: 'fast' },
+  { id: 'c2-4', cefrLevel: 'C2', text: 'The nominalization of complex verbal processes into abstract noun phrases is a hallmark of academic prose, yet it frequently renders the text impenetrable to lay readers.', speed: 'fast' },
+  { id: 'c2-5', cefrLevel: 'C2', text: 'Had the diplomats exercised greater circumspection during the preliminary negotiations, the subsequent deterioration of bilateral relations might well have been averted altogether.', speed: 'fast' },
+  { id: 'c2-6', cefrLevel: 'C2', text: 'It is incumbent upon researchers to ensure that the dissemination of their findings does not inadvertently perpetuate the very misconceptions they seek to dispel.', speed: 'fast' },
+  { id: 'c2-7', cefrLevel: 'C2', text: 'So thoroughly had the prevailing orthodoxy permeated institutional thinking that any deviation from the established paradigm was met with profound scepticism and resistance.', speed: 'fast' },
+  { id: 'c2-8', cefrLevel: 'C2', text: 'The juxtaposition of austere minimalism with baroque ornamentation in her later works bespeaks an artist grappling with the tension between restraint and unbridled creative expression.', speed: 'fast' },
+  { id: 'c2-9', cefrLevel: 'C2', text: 'Insofar as the amelioration of socioeconomic disparities is contingent upon equitable access to education, any retrenchment of public funding would be fundamentally counterproductive.', speed: 'fast' },
+  { id: 'c2-10', cefrLevel: 'C2', text: 'The philosopher posited that, far from being mutually exclusive, determinism and moral agency can be reconciled through a compatibilist framework that redefines the notion of free will.', speed: 'fast' },
 ]

@@ -17,10 +17,11 @@ import { WordPackManager } from './components/WordPackManager'
 import { EssayWriting } from './components/EssayWriting'
 import { AISettings } from './components/AISettings'
 import { ProgressDashboard } from './components/ProgressDashboard'
+import { ListeningComprehension } from './components/ListeningComprehension'
 import { useProgress } from './hooks/useProgress'
 import { useVocabulary } from './hooks/useVocabulary'
 
-type ExerciseType = 'pronunciation' | 'listening' | 'speaking' | 'conversation'
+type ExerciseType = 'pronunciation' | 'listening' | 'listening-comprehension' | 'speaking' | 'conversation'
   | 'grammar' | 'reading' | 'writing' | 'dictation' | 'minimal-pairs' | 'morphology'
   | 'free-talk' | 'flashcard' | 'word-packs' | 'essay' | 'ai-settings'
   | 'vocabulary' | 'progress' | 'home'
@@ -97,6 +98,7 @@ const App: React.FC = () => {
         {homeCard('reading', '📖', 'Reading', 'Read graded passages and answer comprehension questions.')}
         {homeCard('writing', '✍️', 'Writing', 'Build sentences, fill gaps, and practice writing structure.')}
         {homeCard('dictation', '🎧', 'Dictation', 'Listen and type what you hear to improve spelling and listening.')}
+        {homeCard('listening-comprehension', '🎧', 'Listening Comprehension', 'Listen to passages and answer inference questions — no transcript shown.')}
         {homeCard('pronunciation', '🎯', 'Pronunciation', 'Practice pronouncing English phrases with instant feedback.',
           () => { setCurrentExercise('pronunciation'); setPronunciationKey(k => k + 1) })}
         {homeCard('minimal-pairs', '👂', 'Minimal Pairs', 'Train your ear to distinguish similar sounds like ship/sheep.')}
@@ -126,6 +128,7 @@ const App: React.FC = () => {
           {navBtn('reading', 'Reading')}
           {navBtn('writing', 'Writing')}
           {navBtn('dictation', 'Dictation')}
+          {navBtn('listening-comprehension', 'Listening')}
           {navBtn('pronunciation', 'Pronunciation', () => { setCurrentExercise('pronunciation'); setPronunciationKey(k => k + 1) })}
           {navBtn('minimal-pairs', 'Ear Training')}
           {navBtn('speaking', 'Speaking', () => { setCurrentExercise('speaking'); setSpeakingKey(k => k + 1) })}
@@ -180,6 +183,10 @@ const App: React.FC = () => {
         <div className="container">
           <DictationExercise onComplete={(score) => { addDictationScore(score); updateStreak() }} />
         </div>
+      )}
+
+      {currentExercise === 'listening-comprehension' && (
+        <ListeningComprehension onComplete={(score) => { addListeningScore(score); updateStreak() }} />
       )}
 
       {currentExercise === 'pronunciation' && (

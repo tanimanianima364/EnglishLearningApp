@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { CEFRLevel } from '../types/ai'
 
 interface ProgressData {
   pronunciationScores: number[]
@@ -14,7 +15,11 @@ interface ProgressData {
   morphologyScores: number[]
   flashcardScores: number[]
   essayScores: number[]
+  speakingEvalLevels: CEFRLevel[]
+  essayEvalLevels: CEFRLevel[]
 }
+
+const CEFR_ORDER: CEFRLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
 
 const defaultProgress: ProgressData = {
   pronunciationScores: [],
@@ -29,7 +34,9 @@ const defaultProgress: ProgressData = {
   dictationScores: [],
   morphologyScores: [],
   flashcardScores: [],
-  essayScores: []
+  essayScores: [],
+  speakingEvalLevels: [],
+  essayEvalLevels: []
 }
 
 export const useProgress = () => {
@@ -182,6 +189,37 @@ export const useProgress = () => {
       (progress.essayScores?.length || 0)
   }
 
+  const addSpeakingEvalLevel = (level: CEFRLevel) => {
+    const newProgress = {
+      ...progress,
+      speakingEvalLevels: [...(progress.speakingEvalLevels || []), level].slice(-20),
+      lastSessionDate: new Date().toISOString().split('T')[0]
+    }
+    saveProgress(newProgress)
+  }
+
+  const addEssayEvalLevel = (level: CEFRLevel) => {
+    const newProgress = {
+      ...progress,
+      essayEvalLevels: [...(progress.essayEvalLevels || []), level].slice(-20),
+      lastSessionDate: new Date().toISOString().split('T')[0]
+    }
+    saveProgress(newProgress)
+  }
+
+  const getEstimatedLevel = (): CEFRLevel => {
+    const levels = [
+      ...(progress.speakingEvalLevels || []),
+      ...(progress.essayEvalLevels || [])
+    ]
+    if (levels.length === 0) return 'A1'
+    // Use the median of recent evaluations
+    const recent = levels.slice(-10)
+    const indices = recent.map(l => CEFR_ORDER.indexOf(l)).sort((a, b) => a - b)
+    const medianIdx = indices[Math.floor(indices.length / 2)]
+    return CEFR_ORDER[medianIdx] || 'A1'
+  }
+
   const resetProgress = () => {
     saveProgress(defaultProgress)
   }
@@ -198,10 +236,13 @@ export const useProgress = () => {
     addMorphologyScore,
     addFlashcardScore,
     addEssayScore,
+    addSpeakingEvalLevel,
+    addEssayEvalLevel,
     updateStreak,
     getAveragePronunciationScore,
     getAverageListeningScore,
     getTotalSessions,
+    getEstimatedLevel,
     resetProgress
   }
 }

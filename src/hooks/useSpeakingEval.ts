@@ -1,8 +1,9 @@
 import { useState, useCallback } from 'react'
-import { SpeakingEvaluation, CEFRLevel } from '../types/ai'
+import { SpeakingEvaluation } from '../types/ai'
 import { isAIAvailable, callClaudeJSON } from '../services/aiService'
 import { speakingEvalPrompt } from '../services/aiPrompts'
 import { scoreContentFrequency, getFrequencyBand } from '../utils/frequencyUtils'
+import { useProgress } from './useProgress'
 
 const FILLER_WORDS = ['um', 'uh', 'like', 'you know', 'basically', 'actually', 'literally', 'so', 'well', 'I mean', 'kind of', 'sort of']
 
@@ -32,6 +33,7 @@ export const useSpeakingEval = () => {
   const [localMetrics, setLocalMetrics] = useState<ReturnType<typeof computeLocalMetrics> | null>(null)
   const [isEvaluating, setIsEvaluating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const { addSpeakingEvalLevel } = useProgress()
 
   const evaluateWithAI = useCallback(async (transcript: string, prompt: string, durationMs: number) => {
     const durationSec = Math.round(durationMs / 1000)
@@ -54,6 +56,7 @@ export const useSpeakingEval = () => {
         { maxTokens: 2048 }
       )
       setEvaluation(result)
+      if (result.cefrLevel) addSpeakingEvalLevel(result.cefrLevel)
     } catch (err: any) {
       setError(err?.message || 'AI evaluation failed')
     } finally {

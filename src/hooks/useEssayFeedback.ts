@@ -3,6 +3,7 @@ import { EssayFeedback, EssayPromptType, CEFRLevel } from '../types/ai'
 import { callClaudeJSON, isAIAvailable } from '../services/aiService'
 import { essayReviewPrompt } from '../services/aiPrompts'
 import { scoreContentFrequency, getFrequencyBand } from '../utils/frequencyUtils'
+import { useProgress } from './useProgress'
 
 export interface EssayPrompt {
   id: string
@@ -154,7 +155,99 @@ const essayPrompts: EssayPrompt[] = [
     prompt: 'Write a reflective personal essay exploring the experience of navigating between two cultures or languages. Employ literary devices such as metaphor, juxtaposition, and shifting registers to convey the complexity of cultural identity.',
     targetLevel: 'C1',
     wordCountTarget: 380
-  }
+  },
+  // C2 prompts
+  {
+    id: 'opinion-c2',
+    type: 'opinion',
+    title: 'The Role of Dissent in Democratic Societies',
+    titleJa: '民主主義社会における反対意見の役割',
+    prompt: 'Critically evaluate the claim that dissent is essential to the health of democratic societies. Consider historical and contemporary examples, examine potential counterarguments, and argue for a nuanced position on the limits of tolerable dissent.',
+    targetLevel: 'C2',
+    wordCountTarget: 450
+  },
+  {
+    id: 'letter-c2',
+    type: 'formal_letter',
+    title: 'Open Letter to an International Organization',
+    titleJa: '国際機関への公開書簡',
+    prompt: 'Write a formal open letter to the United Nations Human Rights Council, advocating for the protection of digital privacy rights in the age of mass surveillance. Present a compelling argument drawing on legal precedents, ethical principles, and empirical evidence of harm.',
+    targetLevel: 'C2',
+    wordCountTarget: 400
+  },
+  {
+    id: 'creative-c2',
+    type: 'creative',
+    title: 'The Weight of Silence',
+    titleJa: '沈黙の重み',
+    prompt: 'Write a reflective literary essay exploring the concept of silence — not merely as the absence of sound, but as a communicative act, a political strategy, and a psychological state. Employ sophisticated literary devices including extended metaphor, paradox, and shifts in register.',
+    targetLevel: 'C2',
+    wordCountTarget: 400
+  },
+  {
+    id: 'report-c2-2',
+    type: 'report',
+    title: 'Digital Literacy and Misinformation',
+    titleJa: 'デジタルリテラシーと偽情報',
+    prompt: 'Write a formal report assessing the effectiveness of current digital literacy programmes in combating the spread of misinformation. Analyse empirical data, evaluate pedagogical approaches, and propose evidence-based policy recommendations for educational institutions and governments.',
+    targetLevel: 'C2',
+    wordCountTarget: 420
+  },
+  // C2 diversified text types (proposal, review, editorial)
+  {
+    id: 'proposal-c2-1',
+    type: 'proposal',
+    title: 'Municipal Green Energy Transition',
+    titleJa: '自治体の再生エネルギー転換提案',
+    prompt: 'Draft a formal proposal to your city council requesting funding for a comprehensive municipal green-energy transition programme. Present a cost-benefit analysis, address potential objections from stakeholders, outline implementation timelines, and cite relevant precedents from comparable municipalities. Adopt a persuasive yet measured register appropriate for a civic audience.',
+    targetLevel: 'C2',
+    wordCountTarget: 450
+  },
+  {
+    id: 'proposal-c2-2',
+    type: 'proposal',
+    title: 'Interdisciplinary Research Centre',
+    titleJa: '学際的研究センター設立提案',
+    prompt: 'Write a proposal for establishing an interdisciplinary research centre at a major university, focusing on the intersection of artificial intelligence and cognitive science. Justify the academic need, outline the governance structure, propose staffing and funding models, and anticipate institutional resistance. Use formal academic register throughout.',
+    targetLevel: 'C2',
+    wordCountTarget: 450
+  },
+  {
+    id: 'review-c2-1',
+    type: 'review',
+    title: 'Comparative Book Review: Digital Privacy',
+    titleJa: '比較書評：デジタルプライバシー',
+    prompt: 'Write a review for a literary magazine comparing two contrasting books on digital privacy: one arguing that surveillance capitalism is an existential threat to democracy, the other contending that data transparency ultimately benefits society. Summarise each position fairly, evaluate the strength of their evidence, and offer your own synthesis. Maintain the register appropriate for an intellectually engaged general readership.',
+    targetLevel: 'C2',
+    wordCountTarget: 420
+  },
+  {
+    id: 'review-c2-2',
+    type: 'review',
+    title: 'Critical Review: Documentary Film',
+    titleJa: '批評レビュー：ドキュメンタリー映画',
+    prompt: 'Write a critical review of a documentary film that examines the relationship between globalisation and cultural identity. Analyse the filmmaker\'s rhetorical strategies, evaluate the balance between emotional appeal and empirical evidence, and situate the work within the broader discourse on cultural imperialism. Write for an educated audience familiar with film criticism conventions.',
+    targetLevel: 'C2',
+    wordCountTarget: 400
+  },
+  {
+    id: 'editorial-c2-1',
+    type: 'editorial',
+    title: 'The Erosion of Public Discourse',
+    titleJa: '公共的議論の侵食',
+    prompt: 'Write a persuasive editorial for a broadsheet newspaper arguing that the quality of public discourse has been fundamentally degraded by algorithmic content curation. Draw on evidence from political science, psychology, and media studies. Employ rhetorical devices — including rhetorical questions, tricolon, and antithesis — to engage readers while maintaining intellectual credibility.',
+    targetLevel: 'C2',
+    wordCountTarget: 430
+  },
+  {
+    id: 'editorial-c2-2',
+    type: 'editorial',
+    title: 'Rethinking Higher Education',
+    titleJa: '高等教育の再考',
+    prompt: 'Write an opinion article for an international education journal arguing that the traditional university model is no longer fit for purpose in the twenty-first century. Critically examine the assumptions underpinning current higher education systems, propose concrete alternatives, and address the strongest counterarguments. Demonstrate mastery of hedging, concessive structures, and academic register.',
+    targetLevel: 'C2',
+    wordCountTarget: 440
+  },
 ]
 
 interface OfflineFeedback {
@@ -171,6 +264,7 @@ export function useEssayFeedback() {
   const [selectedPrompt, setSelectedPrompt] = useState<EssayPrompt | null>(null)
   const [feedback, setFeedback] = useState<EssayFeedback | null>(null)
   const [isAnalyzing, setIsAnalyzing] = useState(false)
+  const { addEssayEvalLevel } = useProgress()
 
   const selectPrompt = useCallback((prompt: EssayPrompt) => {
     setSelectedPrompt(prompt)
@@ -222,6 +316,7 @@ export function useEssayFeedback() {
       )
 
       setFeedback(result)
+      if (result.cefrLevel) addEssayEvalLevel(result.cefrLevel)
     } catch (error) {
       // Fallback: generate basic offline feedback
       const offline = getOfflineFeedback(essay)
@@ -252,6 +347,7 @@ export function useEssayFeedback() {
       }
 
       setFeedback(basicFeedback)
+      addEssayEvalLevel(basicFeedback.cefrLevel)
     } finally {
       setIsAnalyzing(false)
     }

@@ -137,7 +137,7 @@ export const DictationExercise: React.FC<DictationExerciseProps> = ({ onComplete
 
         {/* Level tabs */}
         <div style={{ display: 'flex', gap: '6px', marginBottom: '20px' }}>
-          {(['A1', 'A2', 'B1', 'B2'] as CefrLevel[]).map(level => (
+          {(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as CefrLevel[]).map(level => (
             <button
               key={level}
               className={`btn ${selectedLevel === level ? 'btn-primary' : 'btn-secondary'}`}

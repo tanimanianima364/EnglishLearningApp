@@ -269,7 +269,7 @@ export const GrammarExercise: React.FC<GrammarExerciseProps> = ({ onComplete }) 
           <h2 style={{ margin: 0 }}>📝 Grammar Lessons</h2>
         </div>
         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-          {(['all', 'A1', 'A2', 'B1', 'B2'] as const).map(level => (
+          {(['all', 'A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const).map(level => (
             <button
               key={level}
               className={`btn ${filterLevel === level ? 'btn-primary' : 'btn-secondary'}`}

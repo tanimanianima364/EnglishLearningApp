@@ -881,6 +881,378 @@ export const scenarios: ConversationScenario[] = [
       "I want to make sure I understand your symptoms correctly. Can you describe them again?",
       "Let me help you with that. Can you give me a few more details?"
     ]
+  },
+  {
+    id: 'academic-seminar',
+    title: 'Academic Seminar Discussion',
+    icon: '🎓',
+    description: 'Discuss research methodology in an academic seminar setting',
+    difficulty: 'Advanced',
+    aiRole: 'Professor',
+    openingMessage: "Good afternoon, everyone. Welcome to today's seminar. We'll be examining the methodological approaches used in recent longitudinal studies on cognitive development. To get us started — what are your initial thoughts on the strengths and limitations of longitudinal research designs?",
+    vocabulary: [
+      { word: 'paradigm', meaning: 'A framework of concepts and assumptions in a field' },
+      { word: 'methodology', meaning: 'The systematic approach used to conduct research' },
+      { word: 'empirical', meaning: 'Based on observation or experiment rather than theory' },
+      { word: 'hypothesis', meaning: 'A proposed explanation to be tested through research' },
+      { word: 'correlation', meaning: 'A statistical relationship between two variables' },
+      { word: 'longitudinal', meaning: 'A study conducted over an extended period of time' }
+    ],
+    usefulPhrases: [
+      "Building on that point, I would argue that...",
+      "The empirical evidence suggests that...",
+      "One could challenge this assumption by...",
+      "From a methodological standpoint...",
+      "This raises an important epistemological question...",
+      "I'd like to draw a distinction between..."
+    ],
+    phases: [
+      {
+        patterns: [
+          { triggers: ['longitudinal', 'strength', 'advantage', 'track', 'over time', 'long term', 'change'],
+            responses: [
+              "Excellent observation. You're right that longitudinal designs allow us to track developmental trajectories. However, what about attrition bias — the tendency for participants to drop out over time? How might that compromise the validity of our findings?",
+              "That's a well-articulated point. The ability to observe change over time is indeed a fundamental strength. But consider this: how do we disentangle the effects of maturation from those of the intervention itself?"
+            ], advance: true },
+          { triggers: ['limitation', 'weakness', 'problem', 'bias', 'confound', 'variable', 'issue'],
+            responses: [
+              "A very astute critique. Confounding variables are indeed a persistent challenge. Can you think of specific methodological safeguards that researchers might employ to mitigate these threats to internal validity?",
+              "You've identified a crucial limitation. This is precisely why mixed-methods approaches have gained traction. How might qualitative data complement the quantitative findings in such studies?"
+            ], advance: true },
+          { triggers: ['think', 'believe', 'opinion', 'perspective', 'view', 'agree', 'disagree'],
+            responses: [
+              "That's an interesting perspective. Could you ground that in specific empirical evidence? In academic discourse, it's essential to substantiate our claims with data. What studies come to mind?",
+              "I appreciate you sharing your viewpoint. Let's push this further — what theoretical framework are you drawing on? How does this align with the prevailing paradigm in the field?"
+            ], advance: true }
+        ],
+        fallback: [
+          "Let's focus on the methodological aspects. What do you see as the primary strengths or limitations of longitudinal research designs?",
+          "Consider the practical challenges of conducting research over extended periods. What implications does this have for the reliability of findings?"
+        ]
+      },
+      {
+        patterns: [
+          { triggers: ['method', 'approach', 'design', 'qualitative', 'quantitative', 'mixed', 'sample', 'data'],
+            responses: [
+              "You're touching on a fundamental methodological debate. The choice between qualitative and quantitative approaches isn't merely technical — it reflects deeper epistemological commitments. How does the researcher's paradigm influence their methodology?",
+              "Precisely. The research design must align with the nature of the inquiry. Now, let's consider sampling strategies. What are the implications of convenience sampling versus stratified random sampling for the generalizability of findings?"
+            ], grammarTip: "In academic discourse, use hedging language: \"This suggests...\" rather than \"This proves...\" — it reflects scholarly caution and intellectual humility.", advance: true },
+          { triggers: ['validity', 'reliable', 'reliability', 'replicate', 'replication', 'measure'],
+            responses: [
+              "Validity and reliability are indeed the cornerstones of rigorous research. But there's an inherent tension — increasing internal validity through controlled conditions may compromise ecological validity. How do we navigate this trade-off?",
+              "An essential point. The replication crisis has forced us to reconsider how we evaluate research quality. What role should pre-registration and open data play in strengthening the integrity of empirical research?"
+            ], advance: true },
+          { triggers: ['theory', 'framework', 'model', 'paradigm', 'conceptual'],
+            responses: [
+              "Theory-driven research is crucial for advancing our understanding. However, we must be wary of confirmation bias — the tendency to interpret data in ways that support our pre-existing theoretical commitments. How can we guard against this?",
+              "The interplay between theory and data is central to the scientific enterprise. Are we testing theories, or are we constructing them from the data? This distinction has profound implications for how we design our studies."
+            ], advance: true }
+        ],
+        fallback: [
+          "Let's delve deeper into the methodological choices. How should researchers balance rigour with practical constraints?",
+          "Consider how different methodological approaches might yield different conclusions from the same phenomenon. What does this tell us about the nature of knowledge?"
+        ]
+      },
+      {
+        patterns: [
+          { triggers: ['critique', 'criticize', 'flaw', 'challenge', 'question', 'disagree', 'however', 'but', 'counter'],
+            responses: [
+              "A rigorous critique — well done. Constructive criticism is the engine of academic progress. Now, can you propose an alternative approach that would address the shortcomings you've identified while remaining feasible within practical constraints?",
+              "You've raised a legitimate concern. Let me play devil's advocate: could the authors argue that these limitations, while acknowledged, do not fundamentally undermine the core findings? What would constitute a decisive refutation?"
+            ], advance: true },
+          { triggers: ['suggest', 'propose', 'recommend', 'alternative', 'instead', 'improve', 'better'],
+            responses: [
+              "That's a constructive suggestion. Proposing alternatives demonstrates genuine engagement with the material. How would you operationalize this approach? What specific measures and procedures would you employ?",
+              "An innovative proposal. However, every methodological choice involves trade-offs. What new limitations might your proposed approach introduce, and how would you mitigate them?"
+            ], advance: true },
+          { triggers: ['ethics', 'ethical', 'consent', 'participant', 'harm', 'privacy'],
+            responses: [
+              "You've raised an increasingly important dimension of research methodology. Ethical considerations are not merely procedural hurdles — they fundamentally shape what questions we can ask and how we can investigate them. How should ethical imperatives be balanced against scientific objectives?",
+              "Indeed, the ethical dimension cannot be overlooked. Informed consent, participant wellbeing, and data privacy are non-negotiable. But consider: are there research questions that are simply too important not to investigate, even when ethical challenges are considerable?"
+            ], advance: true }
+        ],
+        fallback: [
+          "Now I'd like you to adopt a critical lens. What aspects of the methodology would you challenge, and what alternatives would you propose?",
+          "Critical evaluation is a hallmark of scholarly rigour. Where do you see the most significant vulnerabilities in the research design?"
+        ]
+      },
+      {
+        patterns: [
+          { triggers: ['conclusion', 'summary', 'overall', 'in sum', 'to conclude', 'final', 'wrap', 'takeaway'],
+            responses: [
+              "An excellent synthesis. You've demonstrated a sophisticated understanding of both the theoretical and practical dimensions of research methodology. As we conclude, I'd encourage you all to read the supplementary papers on mixed-methods designs for next week's seminar.",
+              "Well articulated. The ability to evaluate methodology critically while proposing constructive alternatives is precisely the skill set that distinguishes a competent researcher. Thank you all for a stimulating discussion."
+            ] },
+          { triggers: ['learn', 'interesting', 'insight', 'understand', 'appreciate', 'thank'],
+            responses: [
+              "I'm delighted to hear that. The capacity for critical methodological thinking will serve you well throughout your academic careers. Remember — the goal is not to find the perfect method, but to make informed, transparent choices about the inevitable trade-offs.",
+              "Thank you for your engaged participation. Rigorous methodology is the foundation upon which credible knowledge is built. Continue to question assumptions and demand evidence — that is the essence of scholarly inquiry."
+            ] },
+          { triggers: ['apply', 'practice', 'research', 'project', 'dissertation', 'thesis', 'study'],
+            responses: [
+              "Absolutely — connecting theory to practice is essential. When designing your own research, begin with a clear question, select your methodology based on epistemological fit, and always anticipate potential limitations. I'm happy to discuss your individual projects during office hours.",
+              "That's the right mindset. Your own research projects will benefit enormously from this kind of methodological awareness. Remember: transparency about your choices and their limitations is what distinguishes rigorous scholarship from mere data collection."
+            ] }
+        ],
+        fallback: [
+          "Let's draw our discussion to a close. What key methodological principles will you take away from today's seminar?",
+          "As we wrap up, consider how today's discussion might inform your own approach to research. What has resonated most strongly?"
+        ]
+      }
+    ],
+    fallbackResponses: [
+      "Could you elaborate on that point? Try to connect it to the methodological concepts we've been discussing.",
+      "That's an interesting observation. How does it relate to the empirical evidence we've examined?",
+      "Let's ground this in the literature. Can you reference specific studies or theoretical frameworks to support your argument?"
+    ]
+  },
+  {
+    id: 'business-negotiation',
+    title: 'Business Negotiation',
+    icon: '🤝',
+    description: 'Negotiate terms of a business partnership agreement',
+    difficulty: 'Advanced',
+    aiRole: 'Business Partner',
+    openingMessage: "Good morning. Thank you for taking the time to meet today. As you know, our companies have been exploring the possibility of a strategic partnership. I believe there's significant potential for mutual benefit here. Shall we begin by discussing what each side hopes to achieve from this collaboration?",
+    vocabulary: [
+      { word: 'stakeholder', meaning: 'A person or group with an interest in the outcome' },
+      { word: 'leverage', meaning: 'Advantage or power used in negotiations' },
+      { word: 'due diligence', meaning: 'Thorough investigation before a business deal' },
+      { word: 'equity', meaning: 'Ownership share in a company' },
+      { word: 'ROI', meaning: 'Return on investment — profit relative to cost' },
+      { word: 'synergy', meaning: 'Combined value greater than the sum of parts' }
+    ],
+    usefulPhrases: [
+      "We'd like to propose the following terms...",
+      "That's an interesting offer, but we'd need to see...",
+      "Perhaps we could find a middle ground on...",
+      "From our perspective, the key priority is...",
+      "We're prepared to make a concession on... provided that...",
+      "Let me consult with my team and get back to you on that."
+    ],
+    phases: [
+      {
+        patterns: [
+          { triggers: ['goal', 'objective', 'hope', 'achieve', 'want', 'looking for', 'interested', 'aim', 'expect'],
+            responses: [
+              "Those are well-defined objectives. From our side, we're primarily looking to expand our market reach in the Asia-Pacific region, and your established distribution network there is extremely attractive. How do you envision the revenue-sharing structure for this partnership?",
+              "I appreciate the transparency. Our priorities are quite complementary — we bring the technology platform, and you bring the market expertise. Let's talk specifics. What kind of equity split or revenue share did you have in mind?"
+            ], advance: true },
+          { triggers: ['market', 'grow', 'expand', 'scale', 'customer', 'revenue', 'profit'],
+            responses: [
+              "Market expansion is certainly a compelling driver for this partnership. Our projections suggest a potential 40% increase in combined revenue within the first 18 months. However, the question remains — how do we structure this to ensure both parties bear proportional risk? What's your initial thinking on that?",
+              "I couldn't agree more about the growth potential. Our due diligence indicates strong synergies between our respective portfolios. Shall we move on to discussing the specific terms of the arrangement?"
+            ], advance: true },
+          { triggers: ['hello', 'morning', 'afternoon', 'pleased', 'glad', 'thank', 'yes', 'sure', 'absolutely'],
+            responses: [
+              "Likewise, it's a pleasure. I've been looking forward to this discussion. To set the stage — could you outline your company's primary objectives for this partnership? Understanding your priorities will help us identify areas of mutual interest.",
+              "Thank you. I think we have a genuine opportunity here. Before we get into the specifics, I'd like to understand what success looks like from your perspective. What are the key outcomes you're hoping to achieve?"
+            ] }
+        ],
+        fallback: [
+          "Let's establish a foundation for our discussion. What does your team see as the primary drivers for pursuing this partnership?",
+          "I think it's important we're aligned on objectives from the outset. What are the non-negotiable outcomes for your side?"
+        ]
+      },
+      {
+        patterns: [
+          { triggers: ['propose', 'offer', 'suggest', 'terms', 'deal', 'structure', 'split', 'share', 'percent', 'arrangement'],
+            responses: [
+              "That's a reasonable starting position. However, given that our technology infrastructure represents the core IP in this arrangement, we feel a 60-40 revenue split in our favour would more accurately reflect each party's contribution. We're open to adjusting this based on performance milestones. What are your thoughts?",
+              "I appreciate you putting a concrete proposal on the table. Let me be candid — our board would need to see a more favourable equity position to approve this arrangement. Could we explore a tiered structure where the split adjusts based on quarterly performance targets?"
+            ], grammarTip: "In negotiations, use conditional language to keep options open: \"We would be prepared to...\" or \"We could consider... provided that...\" — this signals flexibility without committing.", advance: true },
+          { triggers: ['invest', 'investment', 'capital', 'fund', 'finance', 'money', 'budget', 'cost'],
+            responses: [
+              "Investment allocation is indeed critical. Our financial team has modelled several scenarios. A joint investment of $2 million in the first year would position us well, but we'd want clear milestones tied to each tranche of funding. How does your team view the initial capital commitment?",
+              "Let's be precise about the financial architecture. We're thinking of a phased investment approach — $500,000 upfront with additional capital released upon hitting agreed KPIs. This mitigates risk for both parties. Does this approach align with your financial planning?"
+            ], advance: true },
+          { triggers: ['timeline', 'when', 'deadline', 'launch', 'start', 'begin', 'schedule'],
+            responses: [
+              "Timing is certainly a factor. Our stakeholders are keen to see tangible progress within Q2. I'd propose a 90-day implementation runway with a soft launch in the target market. Does that timeline work for your operational capacity?",
+              "We're looking at a phased rollout. The due diligence phase should take about six weeks, followed by a pilot programme in a single market. If the pilot metrics are positive, we scale. Shall we map out the specific milestones?"
+            ] }
+        ],
+        fallback: [
+          "I'd like to hear your specific proposal. What terms do you believe would create a fair and sustainable partnership?",
+          "Let's get into the details. What structure do you envision for the revenue sharing and governance of this partnership?"
+        ]
+      },
+      {
+        patterns: [
+          { triggers: ['counter', 'alternative', 'instead', 'rather', 'adjust', 'modify', 'revise', 'reconsider', 'compromise', 'middle ground'],
+            responses: [
+              "I hear you, and I appreciate the willingness to negotiate. What if we met in the middle — say a 55-45 split for the first year, with a renegotiation clause triggered by hitting revenue targets? We'd also want exclusivity in the Asia-Pacific region. Is that something you could take to your board?",
+              "That's a constructive counter-proposal. Let me think about this. We could potentially agree to those terms if you'd be willing to include a performance guarantee — a minimum commitment to marketing spend in the first two quarters. Would that be acceptable?"
+            ], advance: true },
+          { triggers: ['concern', 'risk', 'worry', 'problem', 'issue', 'difficult', 'challenge', 'hesitant'],
+            responses: [
+              "Your concerns are entirely valid, and I don't want to minimize them. Risk mitigation should be built into the agreement. What if we included exit clauses with clearly defined trigger conditions? That way, neither party is locked into an arrangement that isn't delivering results.",
+              "I understand the hesitation. Every partnership carries inherent risk. Perhaps we could structure this with a six-month probationary period, after which both parties can renegotiate or exit without penalty. Would that address your concerns?"
+            ], advance: true },
+          { triggers: ['exclusive', 'compete', 'competition', 'restrict', 'clause', 'non-compete', 'protect'],
+            responses: [
+              "Exclusivity is certainly negotiable, but it cuts both ways. If we grant regional exclusivity, we'd need assurance of minimum performance thresholds. We can't afford to lock up a market without seeing returns. Let's define what those benchmarks would look like.",
+              "We're open to discussing exclusivity provisions, but they need to be reciprocal. If you're asking us to refrain from partnering with competitors in your market, we'd need similar protections in ours. Shall we draft the specific terms?"
+            ] }
+        ],
+        fallback: [
+          "Negotiations involve give and take. Where do you see room for flexibility, and what are your firm requirements?",
+          "Let's try to find common ground. What concessions might your side be willing to make in exchange for the terms you're prioritizing?"
+        ]
+      },
+      {
+        patterns: [
+          { triggers: ['agree', 'accept', 'deal', 'work', 'fine', 'fair', 'reasonable', 'happy', 'satisfied', 'good'],
+            responses: [
+              "Excellent. I'm pleased we've reached an agreement in principle. I'll have our legal team draft a memorandum of understanding reflecting today's discussion. We should plan for a formal signing within two weeks, pending board approval on both sides. Thank you for a very productive negotiation.",
+              "Wonderful. I believe we've crafted a framework that serves both parties well. The next step is to formalize these terms through our respective legal counsel. I'll have a draft agreement sent over by Friday. This has been a very constructive discussion."
+            ] },
+          { triggers: ['legal', 'contract', 'lawyer', 'counsel', 'formal', 'document', 'sign', 'paper', 'writing'],
+            responses: [
+              "Absolutely — nothing is binding until it's in writing. I'll instruct our legal team to prepare a comprehensive partnership agreement incorporating all the terms we've discussed today. Shall we schedule a follow-up meeting for next week to review the draft?",
+              "Of course, the devil is in the details, as they say. Our counsel will draft the formal agreement. I suggest both legal teams coordinate directly to expedite the process. Is there a timeline on your end for board ratification?"
+            ] },
+          { triggers: ['thank', 'pleasure', 'forward', 'look forward', 'great', 'appreciate', 'bye', 'goodbye'],
+            responses: [
+              "The pleasure is mine. I'm genuinely optimistic about this partnership. I believe we've laid a strong foundation today. I'll be in touch early next week with the draft terms. Thank you for your time and your willingness to find mutually beneficial solutions.",
+              "Thank you for a thoroughly professional and productive negotiation. I have every confidence this partnership will deliver outstanding results for both organizations. Let's touch base on Monday to finalize the timeline. Have a great rest of your day."
+            ] }
+        ],
+        fallback: [
+          "I think we're close to an agreement. Shall we summarize the key terms and next steps to ensure we're fully aligned?",
+          "Let's work towards closing this out. Are there any remaining points of contention, or are we ready to move forward?"
+        ]
+      }
+    ],
+    fallbackResponses: [
+      "Could you clarify your position on that? I want to ensure I understand your perspective fully before responding.",
+      "That's an interesting point. How does it relate to the commercial terms we've been discussing?",
+      "Let's make sure we're on the same page. Could you elaborate on what you're proposing?"
+    ]
+  },
+  {
+    id: 'philosophical-debate',
+    title: 'Philosophical Debate',
+    icon: '🧠',
+    description: 'Engage in a debate about free will versus determinism',
+    difficulty: 'Advanced',
+    aiRole: 'Philosophy Professor',
+    openingMessage: "Welcome to today's debate. We'll be exploring one of philosophy's most enduring questions: do human beings possess genuine free will, or are our actions entirely determined by prior causes? I'd like to begin by asking you to state your position. Do you lean towards free will, determinism, or perhaps some form of compatibilism?",
+    vocabulary: [
+      { word: 'determinism', meaning: 'The view that all events are caused by prior events and natural laws' },
+      { word: 'compatibilism', meaning: 'The position that free will and determinism can coexist' },
+      { word: 'agency', meaning: 'The capacity to act independently and make choices' },
+      { word: 'causation', meaning: 'The relationship between cause and effect' },
+      { word: 'volition', meaning: 'The exercise of will; making a deliberate choice' },
+      { word: 'autonomy', meaning: 'Self-governance; the ability to direct one\'s own life' }
+    ],
+    usefulPhrases: [
+      "I would contend that...",
+      "This argument rests on the assumption that...",
+      "One could object to this by pointing out that...",
+      "The logical implication of that position is...",
+      "If we follow this line of reasoning to its conclusion...",
+      "I'd like to draw a distinction between... and..."
+    ],
+    phases: [
+      {
+        patterns: [
+          { triggers: ['free will', 'freedom', 'choice', 'choose', 'libertarian', 'indetermin', 'agent', 'autonomous'],
+            responses: [
+              "An interesting stance. The libertarian position on free will is intuitively appealing, but it faces a formidable challenge: if our decisions are not determined by prior causes, then aren't they essentially random? And if they're random, in what meaningful sense are they truly 'ours'? How would you respond to this objection?",
+              "So you're defending a robust notion of free will. Consider this: neuroscience has shown that brain activity associated with a decision can be detected before the person becomes consciously aware of making that decision. Does this evidence from Libet's experiments trouble your position?"
+            ], advance: true },
+          { triggers: ['determinism', 'determined', 'cause', 'caused', 'inevitable', 'no free will', 'illusion', 'physics', 'law'],
+            responses: [
+              "A bold position. Hard determinism has a certain austere logic to it. But consider the implications for moral responsibility: if no one could have acted otherwise, how can we justifiably hold anyone accountable for their actions? Doesn't your position undermine the entire foundation of ethics and justice?",
+              "You've taken the determinist stance. Let me press you on this: if determinism is true, then your very argument for determinism was itself determined. You couldn't have believed otherwise. Does this self-referential paradox not give you pause?"
+            ], advance: true },
+          { triggers: ['compatibil', 'both', 'middle', 'reconcile', 'soft determinism', 'between'],
+            responses: [
+              "Ah, the compatibilist position — often called the most sophisticated but also the most contentious of the three. Critics from both sides accuse compatibilists of having their cake and eating it too. How do you define 'free will' in a way that's compatible with causal determinism without merely redefining the term into vacuity?",
+              "Compatibilism has a distinguished philosophical pedigree — Hume, Frankfurt, Dennett. But the hard incompatibilist might argue that you've simply changed the subject. If every action is causally necessitated, calling it 'free' because it wasn't coerced seems like a semantic sleight of hand. How do you counter this?"
+            ], advance: true }
+        ],
+        fallback: [
+          "Before we proceed, I'd like to hear your initial position. Do you believe in free will, or do you think our actions are determined by forces beyond our conscious control?",
+          "Let's establish your thesis. Where do you stand on the spectrum between libertarian free will and hard determinism?"
+        ]
+      },
+      {
+        patterns: [
+          { triggers: ['moral', 'responsibility', 'blame', 'praise', 'punishment', 'justice', 'account', 'deserve', 'guilt'],
+            responses: [
+              "You've identified what many consider the most consequential dimension of this debate. If determinism is true, it seems to follow that no one truly deserves punishment or praise. Yet our entire legal and social framework presupposes moral responsibility. Can you envision a coherent system of justice that doesn't rely on the assumption of free will?",
+              "The question of moral responsibility is indeed where the rubber meets the road. Consider Frankfurt's thought experiments about alternative possibilities: he argues that moral responsibility doesn't require the ability to do otherwise — only that one acts on one's own authentic desires. Does this satisfy you, or does it concede too much?"
+            ], grammarTip: "In philosophical debate, use subjunctive constructions: \"Were determinism true, it would follow that...\" and conditional chains: \"If P, then Q; but not Q; therefore not P\" (modus tollens).", advance: true },
+          { triggers: ['science', 'brain', 'neuro', 'physics', 'quantum', 'biology', 'experiment', 'evidence'],
+            responses: [
+              "The empirical angle is crucial. Neuroscience seems to support determinism at the macroscopic level, but quantum mechanics introduces genuine indeterminacy at the subatomic level. The question is whether quantum indeterminacy scales up to influence neural processes in any meaningful way. What's your assessment of this argument?",
+              "You raise an important point about the relationship between science and philosophy. However, we must be careful not to conflate explanatory levels. Even if we fully mapped the neural correlates of every decision, would that settle the philosophical question? Or is free will a concept that operates at a different level of analysis entirely?"
+            ], advance: true },
+          { triggers: ['consciousness', 'experience', 'awareness', 'subjective', 'mind', 'feel', 'phenomenal', 'qualia'],
+            responses: [
+              "The hard problem of consciousness does indeed intersect with the free will debate in fascinating ways. If subjective experience is irreducible to physical processes, perhaps volition occupies that same irreducible space. But this risks placing free will beyond the reach of rational inquiry altogether. How do you navigate this tension?",
+              "Consciousness is often invoked as the missing ingredient that makes free will possible. But the explanatory gap between neural activity and phenomenal experience is precisely what makes this argument difficult to evaluate. Are we explaining free will, or are we simply relocating the mystery?"
+            ], advance: true }
+        ],
+        fallback: [
+          "Let's examine the implications of your position. How does your stance on free will affect your views on moral responsibility, punishment, and social organization?",
+          "Consider the empirical evidence from neuroscience and physics. How does scientific knowledge inform or constrain the philosophical debate about free will?"
+        ]
+      },
+      {
+        patterns: [
+          { triggers: ['object', 'counter', 'however', 'but', 'disagree', 'problem', 'flaw', 'weak', 'challenge', 'wrong'],
+            responses: [
+              "A penetrating objection. You're right to press on that point. Let me offer a defence and see if you can dismantle it: one might argue that even within a deterministic framework, the distinction between actions caused by internal deliberation and those caused by external coercion is morally significant. Does this pragmatic distinction satisfy you?",
+              "You've put your finger on a genuine difficulty. This is precisely why the debate has persisted for millennia. But consider whether the objection applies equally to all positions, or whether it targets one view more than others. Is there a version of the argument that survives your critique?"
+            ], advance: true },
+          { triggers: ['synthesis', 'combine', 'integrate', 'resolution', 'resolve', 'third way', 'beyond', 'transcend'],
+            responses: [
+              "Attempting a synthesis — very ambitious. Some contemporary philosophers, such as Dennett, argue that the kind of free will worth wanting is not the metaphysical variety but rather a practical, evolutionary capacity for flexible, reflective decision-making. Does this pragmatic redefinition appeal to you, or does it evade the fundamental question?",
+              "The impulse to synthesize is admirable, but we must ensure we're not simply papering over a genuine contradiction. Can you articulate precisely how your synthesis resolves the apparent incompatibility, rather than merely asserting that it does?"
+            ], advance: true },
+          { triggers: ['Frankfurt', 'Hume', 'Kant', 'Spinoza', 'Dennett', 'Sartre', 'philosopher', 'Schopenhauer'],
+            responses: [
+              "Excellent — engaging directly with the philosophical tradition. That thinker's contribution to this debate is indeed significant. However, every major position has faced formidable objections. What do you see as the strongest counterargument to the view you've just cited, and how might it be addressed?",
+              "It's valuable to draw on the history of philosophy here. But remember: the authority of a philosopher is not itself an argument. The question is whether their reasoning withstands scrutiny. Can you reconstruct their argument in your own terms and evaluate its premises?"
+            ], advance: true }
+        ],
+        fallback: [
+          "Now I'd like you to engage with the strongest objection to your position. What is the most compelling argument against your view, and how do you respond to it?",
+          "Let's push the debate further. Can you identify a point of potential synthesis between the opposing positions, or do you believe they are fundamentally irreconcilable?"
+        ]
+      },
+      {
+        patterns: [
+          { triggers: ['conclude', 'conclusion', 'final', 'summary', 'overall', 'end', 'wrap', 'position', 'stand'],
+            responses: [
+              "A thoughtful conclusion. You've demonstrated the ability to engage with complex philosophical arguments at a sophisticated level. Whether one ultimately embraces free will, determinism, or compatibilism, the exercise of rigorous argumentation is itself a testament to our capacity for rational deliberation. Thank you for a stimulating debate.",
+              "Well argued throughout. Regardless of where one lands on this question, the debate itself illuminates fundamental aspects of what it means to be a thinking, choosing being. I commend your willingness to engage with positions that challenge your own. This is the essence of philosophical inquiry."
+            ] },
+          { triggers: ['learn', 'interesting', 'thought', 'enjoy', 'insight', 'appreciate', 'thank', 'grateful'],
+            responses: [
+              "The mark of a genuine philosopher is not certainty but the willingness to follow the argument wherever it leads. You've shown that quality today. I'd encourage you to explore the work of Frankfurt on moral responsibility and Dennett on compatibilism for further reading. This has been a truly enriching discussion.",
+              "Thank you for your intellectual courage and rigour. Philosophy is not about winning debates — it's about deepening our understanding of fundamental questions. Your engagement today has been exemplary. Continue to question, to reason, and to remain open to revision."
+            ] },
+          { triggers: ['practical', 'life', 'daily', 'matter', 'real world', 'apply', 'relevance', 'important', 'why'],
+            responses: [
+              "An excellent question to close on. The free will debate is not merely academic — it has profound implications for how we structure our legal systems, how we educate our children, and how we understand ourselves as moral agents. Philosophy, at its best, transforms the way we navigate the world. Thank you for a remarkable debate.",
+              "You've touched on something crucial. The practical implications of this debate extend to criminal justice, mental health, education, and personal responsibility. Far from being an ivory tower exercise, the question of free will shapes the very fabric of human society. I'm glad you see its relevance."
+            ] }
+        ],
+        fallback: [
+          "As we draw to a close, I'd like you to articulate your final position. Has the debate shifted your thinking in any way?",
+          "Let's conclude. What is the most important insight you've gained from this debate, and how might it inform your broader philosophical outlook?"
+        ]
+      }
+    ],
+    fallbackResponses: [
+      "That's an intriguing point. Could you develop it further and connect it to the central question of free will versus determinism?",
+      "I'd like to hear more of your reasoning. What philosophical principles or evidence are you drawing on?",
+      "Let's sharpen the argument. Can you state your position more precisely and anticipate the strongest objection to it?"
+    ]
   }
 ]
 

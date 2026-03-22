@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useChatAgent, AgentPersonality } from '../hooks/useChatAgent'
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition'
+import { CEFRLevel } from '../types/ai'
 
 interface FreeTalkChatProps {
   onComplete?: (messageCount: number, duration: number) => void
@@ -20,6 +21,7 @@ export const FreeTalkChat: React.FC<FreeTalkChatProps> = ({ onComplete }) => {
   const [inputText, setInputText] = useState('')
   const [autoSpeak, setAutoSpeak] = useState(true)
   const [started, setStarted] = useState(false)
+  const [targetLevel, setTargetLevel] = useState<CEFRLevel>('B2')
   const [startTime] = useState(() => Date.now())
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -36,7 +38,7 @@ export const FreeTalkChat: React.FC<FreeTalkChatProps> = ({ onComplete }) => {
 
   const handleSend = () => {
     if (!inputText.trim()) return
-    sendMessage(inputText, autoSpeak)
+    sendMessage(inputText, autoSpeak, 'casual', targetLevel)
     setInputText('')
     resetTranscript()
     inputRef.current?.focus()
@@ -62,6 +64,19 @@ export const FreeTalkChat: React.FC<FreeTalkChatProps> = ({ onComplete }) => {
         <div className="card" style={{ textAlign: 'center', marginBottom: '20px' }}>
           <h2 style={{ marginBottom: '8px' }}>🗣️ Free Talk</h2>
           <p style={{ color: '#666' }}>Choose a conversation partner and start chatting in English!</p>
+          <div style={{ marginTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            <label style={{ fontSize: '14px', color: '#555' }}>Target Level:</label>
+            <div style={{ display: 'flex', gap: '4px' }}>
+              {(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as CEFRLevel[]).map(level => (
+                <button key={level}
+                  className={`btn ${targetLevel === level ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ fontSize: '12px', padding: '4px 10px' }}
+                  onClick={(e) => { e.stopPropagation(); setTargetLevel(level) }}>
+                  {level}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
           {PERSONALITIES.map(p => (

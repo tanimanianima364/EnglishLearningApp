@@ -51,4 +51,4 @@ export interface SpeakingEvaluation {
   suggestions: string[]
 }
 
-export type EssayPromptType = 'opinion' | 'formal_letter' | 'report' | 'academic' | 'creative'
+export type EssayPromptType = 'opinion' | 'formal_letter' | 'report' | 'academic' | 'creative' | 'proposal' | 'review' | 'editorial'

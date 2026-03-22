@@ -2,12 +2,13 @@ import React from 'react'
 import { useProgress } from '../hooks/useProgress'
 
 export const ProgressDashboard: React.FC = () => {
-  const { 
-    progress, 
-    getAveragePronunciationScore, 
-    getAverageListeningScore, 
+  const {
+    progress,
+    getAveragePronunciationScore,
+    getAverageListeningScore,
     getTotalSessions,
-    resetProgress 
+    getEstimatedLevel,
+    resetProgress
   } = useProgress()
 
   const formatTime = (milliseconds: number) => {
@@ -167,6 +168,57 @@ export const ProgressDashboard: React.FC = () => {
             </div>
           )}
         </div>
+      </div>
+
+      <div className="card" style={{ marginBottom: '30px' }}>
+        <h3>🎓 Estimated CEFR Level</h3>
+        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+          <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#007bff' }}>
+            {getEstimatedLevel()}
+          </div>
+          <p style={{ color: '#666', margin: '10px 0' }}>
+            Based on {(progress.speakingEvalLevels?.length || 0) + (progress.essayEvalLevels?.length || 0)} AI evaluations
+          </p>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          {(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const).map(level => {
+            const current = getEstimatedLevel()
+            const levelOrder = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
+            const isReached = levelOrder.indexOf(current) >= levelOrder.indexOf(level)
+            return (
+              <div key={level} style={{
+                padding: '8px 16px',
+                borderRadius: '8px',
+                backgroundColor: isReached ? '#007bff' : '#e9ecef',
+                color: isReached ? 'white' : '#666',
+                fontWeight: isReached ? 'bold' : 'normal',
+                fontSize: '14px'
+              }}>
+                {level}
+              </div>
+            )
+          })}
+        </div>
+        {(progress.speakingEvalLevels?.length || 0) > 0 && (
+          <div style={{ marginTop: '15px' }}>
+            <h4 style={{ fontSize: '14px', color: '#666' }}>Recent Speaking Evaluations:</h4>
+            <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginTop: '5px' }}>
+              {(progress.speakingEvalLevels || []).slice(-10).map((level, i) => (
+                <span key={i} style={{ padding: '3px 8px', backgroundColor: '#e7f3ff', color: '#004085', borderRadius: '4px', fontSize: '12px' }}>{level}</span>
+              ))}
+            </div>
+          </div>
+        )}
+        {(progress.essayEvalLevels?.length || 0) > 0 && (
+          <div style={{ marginTop: '10px' }}>
+            <h4 style={{ fontSize: '14px', color: '#666' }}>Recent Essay Evaluations:</h4>
+            <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginTop: '5px' }}>
+              {(progress.essayEvalLevels || []).slice(-10).map((level, i) => (
+                <span key={i} style={{ padding: '3px 8px', backgroundColor: '#d4edda', color: '#155724', borderRadius: '4px', fontSize: '12px' }}>{level}</span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {getTotalSessions() === 0 && (

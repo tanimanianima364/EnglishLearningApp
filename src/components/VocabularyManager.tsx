@@ -189,6 +189,34 @@ export const VocabularyManager: React.FC = () => {
         <StatCard title="Mastered" value={stats.mastered} color="#28a745" icon="📗" />
       </div>
 
+      {/* CEFR Vocabulary Milestones */}
+      <div className="card" style={{ marginBottom: '24px', padding: '20px' }}>
+        <h3 style={{ marginBottom: '16px' }}>🎯 CEFR Vocabulary Milestones</h3>
+        {([
+          { level: 'A2', target: 2000, color: '#28a745' },
+          { level: 'B1', target: 4000, color: '#007bff' },
+          { level: 'B2', target: 4500, color: '#6f42c1' },
+          { level: 'C1', target: 6000, color: '#fd7e14' },
+          { level: 'C2', target: 8000, color: '#dc3545' },
+        ] as const).map(({ level, target, color }) => {
+          const progress = Math.min(stats.total / target * 100, 100)
+          return (
+            <div key={level} style={{ marginBottom: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', marginBottom: '4px' }}>
+                <span style={{ fontWeight: 600 }}>{level}: {target.toLocaleString()} words</span>
+                <span style={{ color: progress >= 100 ? '#28a745' : '#666' }}>
+                  {stats.total} / {target.toLocaleString()} ({progress.toFixed(0)}%)
+                  {progress >= 100 ? ' ✓' : ''}
+                </span>
+              </div>
+              <div style={{ height: '8px', backgroundColor: '#e9ecef', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: `${progress}%`, backgroundColor: progress >= 100 ? '#28a745' : color, borderRadius: '4px', transition: 'width 0.3s' }} />
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
       {/* Search + Filters */}
       <div className="card" style={{ padding: '16px', marginBottom: '16px' }}>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
